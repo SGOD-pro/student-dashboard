@@ -1,0 +1,200 @@
+"use client";
+import React from "react";
+import { Input } from "@/components/ui/input";
+
+import {
+	UserRoundPen,
+	ImageUp,
+	LoaderCircle,
+	Check,
+	LogOut,
+	CloudUpload,
+	UserRoundCog,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import Image from "next/image";
+import ShowDialog from "./ShowDialog";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { useRouter } from "next/navigation";
+
+const ProfileCard = () => {
+	const router = useRouter();
+	const student = useSelector((state: RootState) => state.student);
+	const [disabled, setDisabled] = React.useState(false);
+	const button = (): React.ReactNode => {
+		return (
+			<Button variant="outline" size="icon" disabled={!student}>
+				<UserRoundCog className="w-4 h-4" />
+			</Button>
+		);
+	};
+
+	const { toast } = useToast();
+	const logout = async () => {
+		try {
+			setDisabled(true);
+			await fetch("/api/logout", {
+				method: "POST",
+			});
+			router.push("/");
+		} catch (error) {
+			setDisabled(false);
+			toast({
+				description: "Something went wrong",
+				variant: "destructive",
+				action: <ToastAction altText="Try again">Try again</ToastAction>,
+			});
+		}
+	};
+	return (
+		<div className="p-4 bg-slate-800 rounded-lg lg:rounded-2xl h-full flex items-center justify-between md:justify-start gap-4 sm:gap-10">
+			<label
+				htmlFor="image"
+				className="relative cursor-pointer space-x-4 w-36 h-36 sm:w-52 sm:h-52 rounded-full border-4 p-1 border-gray-500"
+			>
+				<Image
+					src={student?.picture || "/girl1.jpg"}
+					alt="Profile"
+					className="w-full h-full object-cover object-top rounded-full"
+					width={800}
+					height={800}
+				/>
+
+				<label
+					htmlFor="image"
+					className="absolute right-2 bottom-2 z-10 rounded-full bg-stone-900 p-3 text-white grid place-content-center cursor-pointer"
+				>
+					<ImageUp className="h-5 w-5" />
+				</label>
+			</label>
+			<div className="">
+				<div className="mb-4">
+					<div className=" flex items-center gap-2">
+						<h2 className=" text-xl sm:text-3xl font-bold text-white">
+							{student?.name}
+						</h2>
+						<ShowDialog button={button} title="More details">
+							<div className="border-2 border-slate-700 w-24 h-24 rounded-full p-1 relative m-auto">
+								<Image
+									src={student?.picture || "/girl1.jpg"}
+									alt="Profile"
+									className="w-full h-full object-cover object-top rounded-full"
+									width={300}
+									height={300}
+								/>
+								<Input
+									type="file"
+									className="absolute invisible"
+									id="image"
+									name="image"
+									accept="image/*"
+								/>
+								<label
+									htmlFor="image"
+									className="absolute right-1 bottom-1 z-10 rounded-full bg-stone-700 p-1 text-white grid place-content-center cursor-pointer"
+								>
+									<ImageUp className="h-4 w-4" />
+								</label>
+							</div>
+							<div className=" space-y-1">
+								<h2 className="text-xl font-semibold text-center my-2">
+									{student?.name}
+								</h2>
+								<h2 className="font-bold mt-1">Admission no{":"} {student?.admissionNo}</h2>
+								<p className=" font-bold">Subjects{":"} {student?.subjects}</p>
+								<ul className=" list-inside list-decimal">
+									<h3 className="font-bold">Timings{":"}</h3>
+									{student?.presentByBatch.map((item) => (
+										<li className="text-sm">
+											<span className="text-basic font-bold">{item.subject} {":"}</span> {item.timing}
+										</li>
+									))}
+								</ul>
+								<ul className=" list-inside list-disc">
+									<h3 className="font-bold">Presents{":"}</h3>
+									{student?.presentByBatch.map((item) => (
+										<li className="text-sm">
+											<span className="text-basic font-bold">{item.subject} {":"}</span> {item.presents}
+										</li>
+									))}
+								</ul>
+								<div className="">
+									<label htmlFor="phone1" className="text-xs pl-2">
+										Phone1
+									</label>
+									<Input
+										value={student?.phoneNo[0]}
+										id="phone1"
+										type="text"
+										max={10}
+										className="bg-stone-900"
+									/>
+
+									<label htmlFor="phone2" className="text-xs pl-2">
+										Phone2
+									</label>
+									<Input
+										value={student?.phoneNo[1]}
+										id="phone2"
+										type="text"
+										max={10}
+										className="bg-stone-900"
+									/>
+								</div>
+								<div className="text-right">
+									<Button
+										className="bg-green-500 mr-1"
+										size={"icon"}
+										onClick={logout}
+										disabled={disabled}
+									>
+										{" "}
+										<CloudUpload className="h-4 w-4" />
+									</Button>
+									<Button
+										variant="destructive"
+										size={"icon"}
+										onClick={logout}
+										disabled={disabled}
+									>
+										{" "}
+										<LogOut className="h-4 w-4" />
+									</Button>
+								</div>
+							</div>
+						</ShowDialog>
+					</div>
+					<p className="text-gray-400 text-sm">{student?.subjects}</p>
+				</div>
+				<div className="text-gray-400">
+					<label htmlFor="" className="text-xs pl-2">
+						Phone1
+					</label>
+					<div className="relative">
+						<Input value={student?.phoneNo[0]} type="text" max={10} readOnly />
+					</div>
+				</div>
+				<div className="text-gray-400">
+					<label htmlFor="" className="text-xs pl-2">
+						Phone2
+					</label>
+					<div className="relative">
+						<Input
+							id=""
+							type="text"
+							maxLength={10}
+							minLength={10}
+							value={student?.phoneNo[1]}
+							readOnly
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default ProfileCard;
