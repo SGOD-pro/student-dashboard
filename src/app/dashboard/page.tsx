@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Presents from "../components/Presents";
 import Profile from "../components/Profile";
 import Payment from "../components/Payment";
@@ -17,16 +17,19 @@ import {
 	setExam,
 	setAttendance,
 } from "@/app/store/slices/Data";
+import { useRouter } from "next/navigation";
+
 export default function Home() {
 	const { toast } = useToast();
 	const dispatch = useDispatch();
+	const router=useRouter();
 	useEffect(() => {
 		fetch("/api", {
 			method: "get",
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data.data.exam)
+				console.log(data.data.exam);
 				dispatch(setStudent(data.data.student));
 				dispatch(setAssignments(data.data.assignments || null));
 				dispatch(setFees(data.data.fees || null));
@@ -40,13 +43,12 @@ export default function Home() {
 					variant: "destructive",
 					action: <ToastAction altText="Try again">Try again</ToastAction>,
 				});
+				router.push('/')
 			});
-	
-	  return () => {
-		
-	  }
-	}, [])
-	
+
+		return () => {};
+	}, []);
+
 	return (
 		<main className="flex p-4 lg:p-6 max-w-screen w-screen lg:h-screen gap-4 lg:gap-6 flex-col lg:flex-row">
 			<section className="md:w-full lg:w-[70%] grid grid-rows-[1fr,2fr] h-full gap-4 lg:gap-6 ">
@@ -54,9 +56,9 @@ export default function Home() {
 					<section className="w-full md:w-[60%] min-w-64">
 						<Profile />
 					</section>
-					<Link className="w-full md:w-[40%] min-w-64" href={""}>
+					<div className="w-full md:w-[40%] min-w-64">
 						<Payment />
-					</Link>
+					</div>
 				</div>
 				<div className=" gap-4 lg:gap-6 flex flex-col md:flex-row">
 					<section className="w-full md:w-1/2 h-full lg:max-h-[58vh] lg:min-w-64 scrollbar">

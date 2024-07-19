@@ -132,10 +132,10 @@ async function getExams(batches: string[] | undefined) {
 	}
 	const batchIds = batches.map((item) => new mongoose.Types.ObjectId(item));
 	console.log("exam");
-	
+
 	console.log(batchIds);
-	
-	const documents= await ExamModel()
+
+	const documents = await ExamModel()
 		.aggregate([
 			{
 				$match: {
@@ -176,16 +176,16 @@ async function getExams(batches: string[] | undefined) {
 				$project: {
 					date: 1,
 					title: 1,
-					caption:1,
+					caption: 1,
 					subject: "$subject.subject",
 				},
 			},
 		])
 		.toArray();
-		console.log("documents");
-		console.log(documents);
-		
-		return documents;
+	console.log("documents");
+	console.log(documents);
+
+	return documents;
 }
 export async function POST(req: Request) {
 	await connectToDatabase();
@@ -218,10 +218,11 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: NextRequest) {
+	await connectToDatabase();
 	try {
-		const id=req.cookies.get("id")?.value
+		const id = req.cookies.get("id")?.value;
 		console.log(id);
-		
+
 		if (!id) {
 			return Response.json({ message: "User notlogin" }, { status: 409 });
 		}
@@ -255,18 +256,17 @@ export async function GET(req: NextRequest) {
 								},
 							},
 						},
-						
 					},
 				},
 				{
 					$addFields: {
-						admissionDate:{
-							$dateToString:{
+						admissionDate: {
+							$dateToString: {
 								format: "%d-%m-%Y",
-								date:"$admissionDate"
-							}
-						}
-					}
+								date: "$admissionDate",
+							},
+						},
+					},
 				},
 
 				{
@@ -305,10 +305,16 @@ export async function GET(req: NextRequest) {
 											},
 										},
 									},
-									
 								},
 							},
-							{ $project: { subject: 1,timing:{$concat:["$days","(","$startTime","-","$endTime",")"]} } }
+							{
+								$project: {
+									subject: 1,
+									timing: {
+										$concat: ["$days", "(", "$startTime", "-", "$endTime", ")"],
+									},
+								},
+							},
 						],
 					},
 				},
@@ -352,12 +358,11 @@ export async function GET(req: NextRequest) {
 						batches: {
 							$first: "$batches",
 						},
-						admissionDate:{
+						admissionDate: {
 							$first: "$admissionDate",
-						}
+						},
 					},
 				},
-				
 			])
 			.toArray();
 		if (student.length === 0) {
@@ -370,7 +375,7 @@ export async function GET(req: NextRequest) {
 			getAttendence(student[0]._id),
 		]);
 		//console.log(exam[0]);
-		
+
 		const data = {
 			student: student[0],
 			fees: fees ? fees : null,
@@ -378,8 +383,10 @@ export async function GET(req: NextRequest) {
 			assignments: assignments ? assignments : null,
 			attendence: attendence[0],
 		};
-		return Response.json({message:"Fetched",data},{status:200});
+		return Response.json({ message: "Fetched", data }, { status: 200 });
 	} catch (error) {
+		console.log(error);
+
 		return Response.json({ message: error }, { status: 500 });
 	}
 }

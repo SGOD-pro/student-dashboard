@@ -8,21 +8,19 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 interface ShowDialogProps {
-  button: () => React.ReactNode;
-  children: React.ReactNode;
-  title?:string;
+	button: () => React.ReactNode;
+	children: React.ReactNode;
+	title?: string;
 }
-function ShowDialog({button,children,title}:ShowDialogProps) {
+function ShowDialog({ button, children, title }: ShowDialogProps) {
 	return (
 		<Dialog>
-      <DialogTrigger asChild>{button()}</DialogTrigger>
+			<DialogTrigger asChild>{button()}</DialogTrigger>
 			{/* <DialogTrigger></DialogTrigger> */}
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
-					<DialogDescription>
-						{children}
-					</DialogDescription>
+					<DialogDescription>{children}</DialogDescription>
 				</DialogHeader>
 			</DialogContent>
 		</Dialog>

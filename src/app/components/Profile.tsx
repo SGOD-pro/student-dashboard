@@ -49,6 +49,61 @@ const ProfileCard = () => {
 			});
 		}
 	};
+	const [input1, setinput1] = React.useState<string>(student?.phoneNo[0]||"")
+	const [input2, setinput2] = React.useState<string>(student?.phoneNo[1]||"")
+	const update = () => {
+		
+		const phoneNumberRegex = /^\d{10}$/;
+		const numbers = [];
+
+		if (phoneNumberRegex.test(input1)) {
+			numbers.push(input1);
+		} else {
+			toast({
+				description: "Invalid credentials",
+				variant: "default",
+			});
+			return;
+		}
+
+		if (phoneNumberRegex.test(input2)) {
+			numbers.push(input2);
+		} else {
+			toast({
+				description: "Invalid credentials",
+				variant: "default",
+			});
+			return;
+		}
+
+		setDisabled(true);
+
+		fetch("/api/update-details", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ numbers }),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				toast({
+					description: "Updated",
+					variant: "default",
+				});
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+				toast({
+					description: "Something went wrong",
+					variant: "destructive",
+					action: <ToastAction altText="Try again">Try again</ToastAction>,
+				});
+			})
+			.finally(() => {
+				setDisabled(false);
+			});
+	};
 	return (
 		<div className="p-4 bg-slate-800 rounded-lg lg:rounded-2xl h-full flex items-center justify-between md:justify-start gap-4 sm:gap-10">
 			<label
@@ -103,13 +158,20 @@ const ProfileCard = () => {
 								<h2 className="text-xl font-semibold text-center my-2">
 									{student?.name}
 								</h2>
-								<h2 className="font-bold mt-1">Admission no{":"} {student?.admissionNo}</h2>
-								<p className=" font-bold">Subjects{":"} {student?.subjects}</p>
+								<h2 className="font-bold mt-1">
+									Admission no{":"} {student?.admissionNo}
+								</h2>
+								<p className=" font-bold">
+									Subjects{":"} {student?.subjects}
+								</p>
 								<ul className=" list-inside list-decimal">
 									<h3 className="font-bold">Timings{":"}</h3>
 									{student?.presentByBatch.map((item) => (
 										<li className="text-sm">
-											<span className="text-basic font-bold">{item.subject} {":"}</span> {item.timing}
+											<span className="text-basic font-bold">
+												{item.subject} {":"}
+											</span>{" "}
+											{item.timing}
 										</li>
 									))}
 								</ul>
@@ -117,7 +179,10 @@ const ProfileCard = () => {
 									<h3 className="font-bold">Presents{":"}</h3>
 									{student?.presentByBatch.map((item) => (
 										<li className="text-sm">
-											<span className="text-basic font-bold">{item.subject} {":"}</span> {item.presents}
+											<span className="text-basic font-bold">
+												{item.subject} {":"}
+											</span>{" "}
+											{item.presents}
 										</li>
 									))}
 								</ul>
@@ -126,33 +191,35 @@ const ProfileCard = () => {
 										Phone1
 									</label>
 									<Input
-										value={student?.phoneNo[0]}
+										value={input1}
 										id="phone1"
 										type="text"
 										max={10}
 										className="bg-stone-900"
+										onChange={(e)=>{setinput1(e.target.value)}}
 									/>
 
 									<label htmlFor="phone2" className="text-xs pl-2">
 										Phone2
 									</label>
 									<Input
-										value={student?.phoneNo[1]}
+										value={input2}
 										id="phone2"
 										type="text"
 										max={10}
 										className="bg-stone-900"
+										onChange={(e)=>{setinput2(e.target.value)}}
 									/>
 								</div>
 								<div className="text-right">
 									<Button
 										className="bg-green-500 mr-1"
 										size={"icon"}
-										onClick={logout}
+										onClick={update}
 										disabled={disabled}
 									>
 										{" "}
-										<CloudUpload className="h-4 w-4" />
+										<CloudUpload className="h-4 w-4 pointer-events-none" />
 									</Button>
 									<Button
 										variant="destructive"
@@ -161,7 +228,7 @@ const ProfileCard = () => {
 										disabled={disabled}
 									>
 										{" "}
-										<LogOut className="h-4 w-4" />
+										<LogOut className="h-4 w-4 pointer-events-none" />
 									</Button>
 								</div>
 							</div>

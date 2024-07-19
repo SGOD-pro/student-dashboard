@@ -20,6 +20,7 @@ function page() {
 				title: "Invalid admission no",
 				action: <ToastAction altText="Try again">Try again</ToastAction>,
 			});
+
 			return;
 		}
 		fetch("/api", {
@@ -28,6 +29,7 @@ function page() {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({ input }),
+			
 		})
 			.then((response) => response.json())
 			.then((data) => {
