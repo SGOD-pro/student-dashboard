@@ -12,8 +12,8 @@ const Exams = () => {
 			<h2 className="text-xl font-bold">Exam</h2>
 			<Empty empty={exam && exam.length === 0}>
 				<ul>
-					{exam.map((item) => (
-						<li>
+					{exam.map((item,index) => (
+						<li key={index}>
 							<a
 								href="/"
 								className="textlg flex p-4 justify-between bg-slate-700/50 mt-2 shadow-sm shadow-black rounded-lg hover:bg-slate-700/60"

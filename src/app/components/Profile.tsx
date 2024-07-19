@@ -166,8 +166,8 @@ const ProfileCard = () => {
 								</p>
 								<ul className=" list-inside list-decimal">
 									<h3 className="font-bold">Timings{":"}</h3>
-									{student?.presentByBatch.map((item) => (
-										<li className="text-sm">
+									{student?.presentByBatch.map((item,index) => (
+										<li className="text-sm" key={index}>
 											<span className="text-basic font-bold">
 												{item.subject} {":"}
 											</span>{" "}
@@ -177,8 +177,8 @@ const ProfileCard = () => {
 								</ul>
 								<ul className=" list-inside list-disc">
 									<h3 className="font-bold">Presents{":"}</h3>
-									{student?.presentByBatch.map((item) => (
-										<li className="text-sm">
+									{student?.presentByBatch.map((item, index) => (
+										<li className="text-sm" key={index}>
 											<span className="text-basic font-bold">
 												{item.subject} {":"}
 											</span>{" "}

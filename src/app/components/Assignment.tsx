@@ -15,8 +15,8 @@ const Assignments = () => {
 			<h2 className="text-xl font-bold">Assignments</h2>
 			<Empty empty={assignment&&assignment.length===0}>
 				<ul>
-					{assignment?.map((item) => (
-						<li className="textlg flex p-4 justify-between bg-slate-700/50 mt-2 shadow-sm shadow-black rounded-lg hover:bg-slate-700/60">
+					{assignment?.map((item,index) => (
+						<li className="textlg flex p-4 justify-between bg-slate-700/50 mt-2 shadow-sm shadow-black rounded-lg hover:bg-slate-700/60" key={index}>
 							<Link href="/" className="flex gap-1">
 								{item.subject||"empty"}
 								<LinkIcon />

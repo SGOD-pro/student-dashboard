@@ -114,8 +114,8 @@ const PaymentInfo = () => {
 										</TableRow>
 									) : (
 										<>
-											{record.map((item) => (
-												<TableRow>
+											{record.map((item,index) => (
+												<TableRow key={index}>
 													<TableCell className="font-medium">
 														{item.paidMonth}
 													</TableCell>
