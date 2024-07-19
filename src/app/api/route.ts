@@ -182,8 +182,6 @@ async function getExams(batches: string[] | undefined) {
 			},
 		])
 		.toArray();
-	console.log("documents");
-	console.log(documents);
 
 	return documents;
 }
@@ -374,8 +372,6 @@ export async function GET(req: NextRequest) {
 			getAssignments(student[0].batches),
 			getAttendence(student[0]._id),
 		]);
-		//console.log(exam[0]);
-
 		const data = {
 			student: student[0],
 			fees: fees ? fees : null,

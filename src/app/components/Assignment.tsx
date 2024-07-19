@@ -8,7 +8,6 @@ import Empty from "./Empty";
 
 const Assignments = () => {
 	const assignment = useSelector((state: RootState) => state.assignments);
-	console.log(assignment);
 
 	return (
 		<div className="p-4 bg-slate-800 rounded-lg lg:rounded-2xl text-white h-full">

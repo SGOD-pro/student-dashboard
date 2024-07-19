@@ -8,8 +8,6 @@ export async function POST(req: NextRequest) {
     try {
         const id = req.cookies.get("id")?.value;
         const { numbers } = await req.json();
-        console.log(numbers);
-
         if (!id) return NextResponse.json({ message: "Can't login" }, { status: 409 });
         
         const result = await StudentModel().findOneAndUpdate(

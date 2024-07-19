@@ -63,8 +63,6 @@ export async function GET(req: NextRequest) {
 				},
 			])
 			.toArray();
-		console.log(document);
-
 		return Response.json(
 			{ message: "Fetched", data: document },
 			{ status: 200 }

@@ -33,7 +33,6 @@ const PaymentInfo = () => {
 
 	differnce.current = Fees?.paidMonth ? Fees.paidMonth : student?.admissionDate;
 	differnce.current = parseDateDMY(differnce.current);
-	console.log("difference.current:", differnce.current);
 	const [loading, setLoading] = React.useState(false);
 
 	const fetchFeesRecord = async () => {

@@ -51,6 +51,19 @@ const ProfileCard = () => {
 	};
 	const [input1, setinput1] = React.useState<string>(student?.phoneNo[0]||"")
 	const [input2, setinput2] = React.useState<string>(student?.phoneNo[1]||"")
+	React.useEffect(() => {
+		if (student?.phoneNo[0]) {
+			setinput1(student?.phoneNo[0])
+		}
+		if (student?.phoneNo[0]) {
+			setinput2(student?.phoneNo[1])
+		}
+	
+	  return () => {
+		
+	  }
+	}, [student])
+	
 	const update = () => {
 		
 		const phoneNumberRegex = /^\d{10}$/;

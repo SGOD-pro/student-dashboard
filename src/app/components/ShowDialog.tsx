@@ -17,7 +17,6 @@ function ShowDialog({ button, children, title }: ShowDialogProps) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>{button()}</DialogTrigger>
-			{/* <DialogTrigger></DialogTrigger> */}
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
