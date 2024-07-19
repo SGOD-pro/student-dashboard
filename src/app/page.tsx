@@ -8,7 +8,7 @@ import { ToastAction } from "@/components/ui/toast";
 
 import { useRouter } from "next/navigation";
 
-function page() {
+function Page() {
 	const { toast } = useToast();
 	const route=useRouter()
 	const [input, setInput] = React.useState<string>();
@@ -81,4 +81,4 @@ function page() {
 	);
 }
 
-export default page;
+export default Page;
