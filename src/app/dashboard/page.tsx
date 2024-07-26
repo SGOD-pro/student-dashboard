@@ -70,10 +70,10 @@ export default function Home() {
 				</div>
 			</section>
 			<aside className="lg:w-[30%] h-full grid lg:grid-rows-[1.5fr,1.5fr] lg:grid-cols-1 grid-cols-1 md:grid-rows-1 sm:w-full  gap-4 lg:gap-6 lg:min-w-64 sm:grid-cols-2">
-				<section className="h-[50vh] md:h-[56vh]">
+				<section className="h-fit md:h-[56vh]">
 					<Presents />
 				</section>
-				<section className="h-[50vh] md:h-[34.4vh] scrollbar overflow-auto">
+				<section className="h-fit max-h-[51.8vh] md:h-[34.4vh] rounded-lg lg:rounded-2x scrollbar overflow-auto bg-slate-800 p-4">
 					<Exam />
 				</section>
 			</aside>

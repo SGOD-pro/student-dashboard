@@ -8,7 +8,7 @@ const Exams = () => {
 	const exam = useSelector((state: RootState) => state.exam);
 
 	return (
-		<div className="p-4 bg-slate-800 rounded-lg lg:rounded-2xl text-white h-full">
+		<div className=" bg-slate-800 l text-white h-full">
 			<h2 className="text-xl font-bold">Exam</h2>
 			<Empty empty={exam && exam.length === 0}>
 				<ul>
@@ -27,6 +27,7 @@ const Exams = () => {
 							</a>
 						</li>
 					))}
+			
 				</ul>
 			</Empty>
 		</div>

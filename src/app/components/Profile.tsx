@@ -121,7 +121,7 @@ const ProfileCard = () => {
 		<div className="p-4 bg-slate-800 rounded-lg lg:rounded-2xl h-full flex items-center justify-between md:justify-start gap-4 sm:gap-10">
 			<label
 				htmlFor="image"
-				className="relative cursor-pointer space-x-4 w-36 h-36 sm:w-52 sm:h-52 rounded-full border-4 p-1 border-gray-500"
+				className="relative cursor-pointer space-x-4 w-32 h-32 sm:w-52 sm:h-52 rounded-full border-4 p-1 border-gray-500"
 			>
 				<Image
 					src={student?.picture || "/girl1.jpg"}
@@ -130,13 +130,6 @@ const ProfileCard = () => {
 					width={800}
 					height={800}
 				/>
-
-				<label
-					htmlFor="image"
-					className="absolute right-2 bottom-2 z-10 rounded-full bg-stone-900 p-3 text-white grid place-content-center cursor-pointer"
-				>
-					<ImageUp className="h-5 w-5" />
-				</label>
 			</label>
 			<div className="">
 				<div className="mb-4">

@@ -5,13 +5,14 @@ import Image from "next/image";
 import React from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-
 import { useRouter } from "next/navigation";
 
+import { Loader } from "lucide-react";
 function Page() {
 	const { toast } = useToast();
-	const route=useRouter()
+	const route = useRouter();
 	const [input, setInput] = React.useState<string>();
+	const [loading, setLoading] = React.useState<boolean>(false);
 	const submit = (e: React.FocusEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const regex = /^CA-\d{2}\/\d{2}-\d+$/;
@@ -23,18 +24,17 @@ function Page() {
 
 			return;
 		}
+		setLoading(true);
 		fetch("/api", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({ input }),
-			
 		})
 			.then((response) => response.json())
 			.then((data) => {
-			
-				route.push('/dashboard')
+				route.push("/dashboard");
 			})
 			.catch((error) => {
 				console.error("Error:", error);
@@ -53,7 +53,7 @@ function Page() {
 					width={3000}
 					height={3000}
 					alt="Computer acadamy"
-					className="w-full h-full object-fill lg:rounded-r-3xl"
+					className="w-full h-full object-cover lg:rounded-r-3xl"
 				></Image>
 			</div>
 			<div className="lg:w-1/2 lg:relative lg:top-0 lg:left-0 lg:-translate-x-0 lg:-translate-y-0  absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] min-w-72 ">
@@ -74,7 +74,13 @@ function Page() {
 							onChange={(e) => setInput(e.target.value)}
 						/>
 					</div>
-					<Button>Log in</Button>
+					{!loading ? (
+						<Button>Log in</Button>
+					) : (
+						<Button size="icon">
+							<Loader className=" animate-spin duration-3000"/>
+						</Button>
+					)}
 				</form>
 			</div>
 		</main>

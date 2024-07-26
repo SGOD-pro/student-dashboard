@@ -131,9 +131,6 @@ async function getExams(batches: string[] | undefined) {
 		return;
 	}
 	const batchIds = batches.map((item) => new mongoose.Types.ObjectId(item));
-	console.log("exam");
-
-	console.log(batchIds);
 
 	const documents = await ExamModel()
 		.aggregate([
@@ -219,7 +216,6 @@ export async function GET(req: NextRequest) {
 	await connectToDatabase();
 	try {
 		const id = req.cookies.get("id")?.value;
-		console.log(id);
 
 		if (!id) {
 			return Response.json({ message: "User notlogin" }, { status: 409 });

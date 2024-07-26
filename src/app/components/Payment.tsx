@@ -90,8 +90,8 @@ const PaymentInfo = () => {
 			</p>
 			<div className="text-right">
 				<ShowDialog button={button} title="Your payment details">
-					<div className="border rounded-md mt-3">
-						<Empty empty={record.length === 0}>
+					<Empty empty={record.length === 0}>
+						<div className="border rounded-md mt-3">
 							<Table className="">
 								<TableHeader>
 									<TableRow>
@@ -113,7 +113,7 @@ const PaymentInfo = () => {
 										</TableRow>
 									) : (
 										<>
-											{record.map((item,index) => (
+											{record.map((item, index) => (
 												<TableRow key={index}>
 													<TableCell className="font-medium">
 														{item.paidMonth}
@@ -130,8 +130,8 @@ const PaymentInfo = () => {
 									)}
 								</TableBody>
 							</Table>
-						</Empty>
-					</div>
+						</div>
+					</Empty>
 				</ShowDialog>
 			</div>
 		</div>
