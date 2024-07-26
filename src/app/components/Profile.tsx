@@ -12,15 +12,23 @@ import {
 	UserRoundCog,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import Image from "next/image";
 import ShowDialog from "./ShowDialog";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
+import {
+	setStudent,
+	setAssignments,
+	setFees,
+	setExam,
+	setAttendance,
+} from "@/app/store/slices/Data";
 
 const ProfileCard = () => {
+	const dispatch = useDispatch();
 	const router = useRouter();
 	const student = useSelector((state: RootState) => state.student);
 	const [disabled, setDisabled] = React.useState(false);
@@ -31,7 +39,17 @@ const ProfileCard = () => {
 			</Button>
 		);
 	};
-
+	const [imageSrc, setImageSrc] = React.useState<any | null>(null);
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+		const file = e.target.files?.[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				setImageSrc(reader.result);
+			};
+			reader.readAsDataURL(file);
+		}
+	};
 	const { toast } = useToast();
 	const logout = async () => {
 		try {
@@ -39,6 +57,11 @@ const ProfileCard = () => {
 			await fetch("/api/logout", {
 				method: "POST",
 			});
+			dispatch(setStudent(null));
+			dispatch(setAssignments([]));
+			dispatch(setFees(null));
+			dispatch(setExam([]));
+			dispatch(setAttendance(null));
 			router.push("/");
 		} catch (error) {
 			setDisabled(false);
@@ -49,23 +72,20 @@ const ProfileCard = () => {
 			});
 		}
 	};
-	const [input1, setinput1] = React.useState<string>(student?.phoneNo[0]||"")
-	const [input2, setinput2] = React.useState<string>(student?.phoneNo[1]||"")
+	const [input1, setinput1] = React.useState<string>(student?.phoneNo[0] || "");
+	const [input2, setinput2] = React.useState<string>(student?.phoneNo[1] || "");
 	React.useEffect(() => {
 		if (student?.phoneNo[0]) {
-			setinput1(student?.phoneNo[0])
+			setinput1(student?.phoneNo[0]);
 		}
 		if (student?.phoneNo[0]) {
-			setinput2(student?.phoneNo[1])
+			setinput2(student?.phoneNo[1]);
 		}
-	
-	  return () => {
-		
-	  }
-	}, [student])
-	
+
+		return () => {};
+	}, [student]);
+
 	const update = () => {
-		
 		const phoneNumberRegex = /^\d{10}$/;
 		const numbers = [];
 
@@ -140,7 +160,7 @@ const ProfileCard = () => {
 						<ShowDialog button={button} title="More details">
 							<div className="border-2 border-slate-700 w-24 h-24 rounded-full p-1 relative m-auto">
 								<Image
-									src={student?.picture || "/girl1.jpg"}
+									src={imageSrc || student?.picture || "/girl1.jpg"}
 									alt="Profile"
 									className="w-full h-full object-cover object-top rounded-full"
 									width={300}
@@ -152,6 +172,7 @@ const ProfileCard = () => {
 									id="image"
 									name="image"
 									accept="image/*"
+									onChange={handleFileChange}
 								/>
 								<label
 									htmlFor="image"
@@ -170,28 +191,33 @@ const ProfileCard = () => {
 								<p className=" font-bold">
 									Subjects{":"} {student?.subjects}
 								</p>
-								<ul className=" list-inside list-decimal">
-									<h3 className="font-bold">Timings{":"}</h3>
-									{student?.presentByBatch.map((item,index) => (
-										<li className="text-sm" key={index}>
-											<span className="text-basic font-bold">
-												{item.subject} {":"}
-											</span>{" "}
-											{item.timing}
-										</li>
-									))}
-								</ul>
-								<ul className=" list-inside list-disc">
-									<h3 className="font-bold">Presents{":"}</h3>
-									{student?.presentByBatch.map((item, index) => (
-										<li className="text-sm" key={index}>
-											<span className="text-basic font-bold">
-												{item.subject} {":"}
-											</span>{" "}
-											{item.presents}
-										</li>
-									))}
-								</ul>
+								{(student?.presentByBatch &&
+									student.presentByBatch.length > 0) && (
+										<>
+											<ul className=" list-inside list-decimal">
+												<h3 className="font-bold">Timings{":"}</h3>
+												{student?.presentByBatch.map((item, index) => (
+													<li className="text-sm" key={index}>
+														<span className="text-basic font-bold">
+															{item.subject} {":"}
+														</span>{" "}
+														{item.timing}
+													</li>
+												))}
+											</ul>
+											<ul className=" list-inside list-disc">
+												<h3 className="font-bold">Presents{":"}</h3>
+												{student?.presentByBatch.map((item, index) => (
+													<li className="text-sm" key={index}>
+														<span className="text-basic font-bold">
+															{item.subject} {":"}
+														</span>{" "}
+														{item.presents}
+													</li>
+												))}
+											</ul>
+										</>
+									)}
 								<div className="">
 									<label htmlFor="phone1" className="text-xs pl-2">
 										Phone1
@@ -202,7 +228,9 @@ const ProfileCard = () => {
 										type="text"
 										max={10}
 										className="bg-stone-900"
-										onChange={(e)=>{setinput1(e.target.value)}}
+										onChange={(e) => {
+											setinput1(e.target.value);
+										}}
 									/>
 
 									<label htmlFor="phone2" className="text-xs pl-2">
@@ -214,7 +242,9 @@ const ProfileCard = () => {
 										type="text"
 										max={10}
 										className="bg-stone-900"
-										onChange={(e)=>{setinput2(e.target.value)}}
+										onChange={(e) => {
+											setinput2(e.target.value);
+										}}
 									/>
 								</div>
 								<div className="text-right">

@@ -5,7 +5,7 @@ interface PresentByBatch {
 	presents: number;
 	_id: string;
 	subject: string;
-  timing:string;
+	timing: string;
 }
 
 interface Student {
@@ -66,30 +66,34 @@ const DetailsSlice = createSlice({
 	name: "student",
 	initialState,
 	reducers: {
-		setStudent(state, action: PayloadAction<Student>) {
+		setStudent(state, action: PayloadAction<Student|null>) {
 			state.student = action.payload;
 		},
 
-		setFees(state, action: PayloadAction<Fees>) {
+		setFees(state, action: PayloadAction<Fees | null>) {
 			state.fees = action.payload;
 		},
-		setAssignments(state, action: PayloadAction<Assignment[]>) {
-			const assignmentsSet = new Set(state.assignments.map((a) => a._id));
-			action.payload.forEach((assignment) => {
-				if (!assignmentsSet.has(assignment._id)) {
-					state.assignments.push(assignment);
-				}
-			});
+		setAssignments(state, action: PayloadAction<Assignment[] | null>) {
+			if (action.payload) {
+				const assignmentsSet = new Set(state.assignments.map((a) => a._id));
+				action.payload.forEach((assignment) => {
+					if (!assignmentsSet.has(assignment._id)) {
+						state.assignments.push(assignment);
+					}
+				});
+			}
 		},
-		setExam(state, action: PayloadAction<Exam[]>) {
-			const examsSet = new Set(state.exam.map((e) => e._id));
-			action.payload.forEach((exam) => {
-				if (!examsSet.has(exam._id)) {
-					state.exam.push(exam);
-				}
-			});
+		setExam(state, action: PayloadAction<Exam[] | null>) {
+			if (action.payload) {
+				const examsSet = new Set(state.exam.map((e) => e._id));
+				action.payload.forEach((exam) => {
+					if (!examsSet.has(exam._id)) {
+						state.exam.push(exam);
+					}
+				});
+			}
 		},
-		setAttendance(state, action: PayloadAction<Attendance>) {
+		setAttendance(state, action: PayloadAction<Attendance | null>) {
 			state.attendance = action.payload;
 		},
 		// Additional reducers can be added here if needed

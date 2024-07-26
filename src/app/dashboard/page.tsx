@@ -5,7 +5,6 @@ import Payment from "../components/Payment";
 import Assignment from "../components/Assignment";
 import Exam from "../components/Exam";
 import Performance from "../components/Performance";
-import Link from "next/link";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useToast } from "@/components/ui/use-toast";
@@ -29,11 +28,10 @@ export default function Home() {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data.data.exam);
 				dispatch(setStudent(data.data.student));
-				dispatch(setAssignments(data.data.assignments || null));
+				dispatch(setAssignments(data.data.assignments || []));
 				dispatch(setFees(data.data.fees || null));
-				dispatch(setExam(data.data.exam || null));
+				dispatch(setExam(data.data.exam || []));
 				dispatch(setAttendance(data.data.attendence || null));
 			})
 			.catch((error) => {

@@ -8,6 +8,7 @@ import { ToastAction } from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
 
 import { Loader } from "lucide-react";
+import axios from "axios";
 function Page() {
 	const { toast } = useToast();
 	const route = useRouter();
@@ -25,21 +26,16 @@ function Page() {
 			return;
 		}
 		setLoading(true);
-		fetch("/api", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ input }),
-		})
-			.then((response) => response.json())
+		axios
+			.post("/api/",{input})
 			.then((data) => {
 				route.push("/dashboard");
 			})
 			.catch((error) => {
 				console.error("Error:", error);
+				setLoading(false);
 				toast({
-					description: "Something went wrong",
+					description: error.response.data.message||"Something went wrong",
 					variant: "destructive",
 					action: <ToastAction altText="Try again">Try again</ToastAction>,
 				});
@@ -78,7 +74,7 @@ function Page() {
 						<Button>Log in</Button>
 					) : (
 						<Button size="icon">
-							<Loader className=" animate-spin duration-3000"/>
+							<Loader className=" animate-spin duration-3000" />
 						</Button>
 					)}
 				</form>

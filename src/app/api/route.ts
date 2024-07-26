@@ -139,6 +139,9 @@ async function getExams(batches: string[] | undefined) {
 					batch: {
 						$in: batchIds,
 					},
+					date:{
+						$gte:new Date()
+					}
 				},
 			},
 			{
@@ -362,12 +365,15 @@ export async function GET(req: NextRequest) {
 		if (student.length === 0) {
 			return Response.json({ message: "Student not found" }, { status: 404 });
 		}
+	
 		const [fees, exam, assignments, attendence] = await Promise.all([
 			getFees(student[0]._id),
 			getExams(student[0].batches),
 			getAssignments(student[0].batches),
 			getAttendence(student[0]._id),
 		]);
+		console.log(exam);
+		
 		const data = {
 			student: student[0],
 			fees: fees ? fees : null,
