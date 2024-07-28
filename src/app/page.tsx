@@ -73,7 +73,7 @@ function Page() {
 					{!loading ? (
 						<Button>Log in</Button>
 					) : (
-						<Button size="icon">
+						<Button size="icon" disabled>
 							<Loader className=" animate-spin duration-3000" />
 						</Button>
 					)}

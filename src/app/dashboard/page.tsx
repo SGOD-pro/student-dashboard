@@ -48,30 +48,30 @@ export default function Home() {
 	}, []);
 
 	return (
-		<main className="flex p-4 lg:p-6 max-w-screen w-screen lg:h-screen gap-4 lg:gap-6 flex-col lg:flex-row">
-			<section className="md:w-full lg:w-[70%] grid grid-rows-[1fr,2fr] h-full gap-4 lg:gap-6 ">
-				<div className=" flex lg:gap-6 gap-4 items-stretch flex-col md:flex-row">
-					<section className="w-full md:w-[60%] min-w-64">
+		<main className="flex p-4 xl:p-6 max-w-screen w-screen xl:h-screen gap-4 xl:gap-6 flex-col xl:flex-row">
+			<section className="lg:w-full xl:w-[70%] grid grid-rows-[1fr,2fr] h-full gap-4 xl:gap-6 ">
+				<div className=" flex xl:gap-6 gap-4 items-stretch flex-col lg:flex-row">
+					<section className="w-full lg:w-[60%] min-w-64">
 						<Profile />
 					</section>
-					<div className="w-full md:w-[40%] min-w-64">
+					<div className="w-full lg:w-[40%] min-w-64">
 						<Payment />
 					</div>
 				</div>
-				<div className=" gap-4 lg:gap-6 flex flex-col md:flex-row">
-					<section className="w-full md:w-1/2 h-full lg:max-h-[58vh] lg:min-w-64 scrollbar">
+				<div className=" gap-4 xl:gap-6 flex flex-col lg:flex-row">
+					<section className="w-full lg:w-1/2 h-full xl:max-h-[58vh] xl:min-w-64 scrollbar">
 						<Assignment />
 					</section>
-					<section className="w-full md:w-1/2 h-full lg:max-h-[58vh] lg:min-w-64 scrollbar">
+					<section className="w-full lg:w-1/2 h-full xl:max-h-[58vh] xl:min-w-64 scrollbar">
 						<Performance />
 					</section>
 				</div>
 			</section>
-			<aside className="lg:w-[30%] h-full grid lg:grid-rows-[1.5fr,1.5fr] lg:grid-cols-1 grid-cols-1 md:grid-rows-1 sm:w-full  gap-4 lg:gap-6 lg:min-w-64 sm:grid-cols-2">
-				<section className="h-fit md:h-[56vh]">
+			<aside className="xl:w-[30%] h-full grid xl:grid-rows-[1.5fr,1.5fr] xl:grid-cols-1 grid-cols-1 lg:grid-rows-1 md:w-full  gap-4 xl:gap-6 xl:min-w-64 md:grid-cols-2">
+				<section className="">
 					<Presents />
 				</section>
-				<section className="h-fit max-h-[51.8vh] md:h-[34.4vh] rounded-lg lg:rounded-2x scrollbar overflow-auto bg-slate-800 p-4">
+				<section className="h-fit min-h-full md:h-max lg:h-[34.4vh] rounded-lg xl:rounded-2x scrollbar overflow-auto bg-slate-800 p-4">
 					<Exam />
 				</section>
 			</aside>
