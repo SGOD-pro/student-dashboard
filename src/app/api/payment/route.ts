@@ -38,23 +38,12 @@ export async function GET(req: NextRequest) {
 					},
 				},
 				{
-                $addFields: {
-						newTime: {
-							$dateAdd: {
-								startDate: "$createdAt",
-								unit: "minute",
-								amount: 330, // 330 minutes = 5 hours and 30 minutes
-							},
-						},
-					},
-				},
-				{
 					$project: {
 						paidMonth: 1,
 						month: 1,
 						time: {
 							$dateToString: {
-								date: "$newTime",
+								date: "$createdAt",
 								format: "%H:%M",
 								timezone: "+00:00",
 							},

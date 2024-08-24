@@ -5,6 +5,7 @@ import {
 	AttendanceModel,
 	AssignmentModel,
 	ExamModel,
+	ResultModel
 } from "../connections";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
@@ -184,6 +185,14 @@ async function getExams(batches: string[] | undefined) {
 		.toArray();
 
 	return documents;
+}
+async function getPerformace(stdId:string) {
+	try {
+		//TODO: unwind the result model and match the student id then lookup from examId to exams and then from batch id get the Subject name. the arrenge the the on a single tree, filter out those record which are lessthan from today's date
+
+	} catch (error) {
+		
+	}
 }
 export async function POST(req: Request) {
 	await connectToDatabase();

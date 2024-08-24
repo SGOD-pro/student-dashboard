@@ -8,7 +8,7 @@ function Empty({
 	empty: boolean;
 }) {
 	return (
-		<div className="relative w-full h-[90%] mt-3">
+		<div className="w-full h-full">
 			{empty ? (
 				<h2 className="opacity-30 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
 					Nothing to show

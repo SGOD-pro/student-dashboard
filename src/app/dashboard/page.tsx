@@ -1,11 +1,11 @@
 "use client";
-import Presents from "../components/Presents";
-import Profile from "../components/Profile";
-import Payment from "../components/Payment";
-import Assignment from "../components/Assignment";
-import Exam from "../components/Exam";
-import Performance from "../components/Performance";
-import { useEffect } from "react";
+const Presents = lazy(() => import("../components/Presents"));
+const Profile = lazy(() => import("../components/Profile"));
+const Payment = lazy(() => import("../components/Payment"));
+const Assignment = lazy(() => import("../components/Assignment"));
+const Exam = lazy(() => import("../components/Exam"));
+const Performance = lazy(() => import("../components/Performance"));
+import { lazy, useEffect, Suspense } from "react";
 import { useDispatch } from "react-redux";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -17,11 +17,12 @@ import {
 	setAttendance,
 } from "@/app/store/slices/Data";
 import { useRouter } from "next/navigation";
+import LazyLoading from "../components/LazyLoading";
 
 export default function Home() {
 	const { toast } = useToast();
 	const dispatch = useDispatch();
-	const router=useRouter();
+	const router = useRouter();
 	useEffect(() => {
 		fetch("/api", {
 			method: "get",
@@ -41,40 +42,73 @@ export default function Home() {
 					variant: "destructive",
 					action: <ToastAction altText="Try again">Try again</ToastAction>,
 				});
-				router.push('/')
+				router.push("/");
 			});
 
 		return () => {};
 	}, []);
 
 	return (
-		<main className="flex p-4 xl:p-6 max-w-screen w-screen xl:h-screen gap-4 xl:gap-6 flex-col xl:flex-row">
-			<section className="lg:w-full xl:w-[70%] grid grid-rows-[1fr,2fr] h-full gap-4 xl:gap-6 ">
-				<div className=" flex xl:gap-6 gap-4 items-stretch flex-col lg:flex-row">
-					<section className="w-full lg:w-[60%] min-w-64">
-						<Profile />
-					</section>
-					<div className="w-full lg:w-[40%] min-w-64">
-						<Payment />
+		<main className=" lg:grid lg:grid-cols-[2fr,1fr] h-[100dvh] scrollbar-hidden gap-4 p-4 ">
+			<section className="sm:h-[100dvh] grid md:grid-rows-[1fr,1.8fr] overflow-auto scrollbar-hidden gap-4 ">
+				<div className="grid md:grid-cols-[1.5fr,1fr] gap-4">
+					<div className="p-4 bg-slate-800/50 rounded-lg shadow-md  shadow-black">
+						<Suspense fallback={<LazyLoading />}>
+							<Profile />
+						</Suspense>
+					</div>
+					<div className="p-4 bg-slate-800/50 rounded-lg shadow-md  shadow-black">
+						<Suspense fallback={<LazyLoading />}>
+							<Payment />
+						</Suspense>
 					</div>
 				</div>
-				<div className=" gap-4 xl:gap-6 flex flex-col lg:flex-row">
-					<section className="w-full lg:w-1/2 h-full xl:max-h-[58vh] xl:min-w-64 scrollbar">
-						<Assignment />
-					</section>
-					<section className="w-full lg:w-1/2 h-full xl:max-h-[58vh] xl:min-w-64 scrollbar">
-						<Performance />
-					</section>
+				<div className="space-y-4 sm:space-y-0 md:grid md:grid-cols-2 overflow-auto h-[100vh] md:h-auto gap-4">
+					<div className="overflow-auto h-[48%] md:h-auto scrollbar p-4 bg-slate-800/50 rounded-lg shadow-md  shadow-black">
+						<Suspense fallback={<LazyLoading />}>
+							<Assignment />
+						</Suspense>
+					</div>
+					<div className="overflow-auto h-[48%] md:h-auto scrollbar p-4 bg-slate-800/50 rounded-lg shadow-md  shadow-black">
+						<Suspense fallback={<LazyLoading />}>
+							<Performance />
+						</Suspense>
+					</div>
 				</div>
 			</section>
-			<aside className="xl:w-[30%] h-full grid xl:grid-rows-[1.5fr,1.5fr] xl:grid-cols-1 grid-cols-1 lg:grid-rows-1 md:w-full  gap-4 xl:gap-6 xl:min-w-64 md:grid-cols-2">
-				<section className="">
-					<Presents />
-				</section>
-				<section className="h-fit min-h-full md:h-max lg:h-[34.4vh] rounded-lg xl:rounded-2x scrollbar overflow-auto bg-slate-800 p-4">
-					<Exam />
-				</section>
-			</aside>
+
+			<section className="lg:mt-0 md:mt-4 grid sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-[1.5fr,1fr] overflow-auto max-h-[100dvh] gap-4 lg:mt-0">
+				<div className="bg-slate800/40 overflow-auto scrollbar max-h-[50dvh] lg:max-h-fit p-4 bg-slate-800/50 rounded-lg shadow-md  shadow-black">
+					<Suspense fallback={<LazyLoading />}>
+						<Presents />
+					</Suspense>
+				</div>
+				<div className="bg-slate800/40 overflow-auto scrollbar max-h-[50dvh] lg:max-h-fit p-4 bg-slate-800/50 rounded-lg shadow-md  shadow-black">
+					<Suspense fallback={<LazyLoading />}>
+						<Exam />
+					</Suspense>
+				</div>
+			</section>
 		</main>
 	);
+}
+{
+	/* <Suspense fallback={<LazyLoading />}>
+							<Profile />
+						</Suspense>
+						<Suspense fallback={<LazyLoading />}>
+							<Payment />
+						</Suspense>
+						<Suspense fallback={<LazyLoading />}>
+							<Assignment />
+						</Suspense>
+						<Suspense fallback={<LazyLoading />}>
+							<Performance />
+						</Suspense>
+						<Suspense fallback={<LazyLoading />}>
+						<Presents />
+					</Suspense>
+					<Suspense fallback={<LazyLoading />}>
+						<Exam />
+					</Suspense> */
 }

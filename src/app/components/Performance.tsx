@@ -1,17 +1,20 @@
-"use client"
-import React from "react";
-import ChartBar from "./ChartBar";
+"use client";
+import React, { lazy, Suspense } from "react";
+const ChartBar = lazy(() => import("./ChartBar"));
 import Link from "next/link";
 import Empty from "./Empty";
-
+import LazyLoading from "./LazyLoading";
+LazyLoading;
 const Performance = () => {
 	return (
-		<div className="p-4 bg-slate-800 rounded-lg lg:rounded-2xl text-white h-full overflow-auto scrollbar">
+		<div className="">
 			<h2 className="text-xl font-bold">Performance</h2>
-			<Empty empty={true}>
+			<Empty empty={false}>
 				<>
-					<div className="w-3/4 m-auto">
-						<ChartBar />
+					<div className="w-3/4 m-auto relative">
+						<Suspense fallback={<LazyLoading />}>
+							<ChartBar />
+						</Suspense>
 					</div>
 					<ul>
 						<li className="textlg flex p-4 justify-between bg-slate-700/50 mt-2 shadow-sm shadow-black rounded-lg hover:bg-slate-700/60">

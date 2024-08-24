@@ -138,10 +138,10 @@ const ProfileCard = () => {
 			});
 	};
 	return (
-		<div className="p-4 bg-slate-800 rounded-lg lg:rounded-2xl h-full flex items-center justify-between md:justify-start gap-4 sm:gap-10">
+		<div className="flex items-center justify-between md:justify-start gap-4 sm:gap-10">
 			<label
 				htmlFor="image"
-				className="relative cursor-pointer space-x-4 w-32 h-32 sm:w-52 sm:h-52 rounded-full border-4 p-1 border-gray-500"
+				className="relative cursor-pointer space-x-4 w-36 h-36 sm:w-64 lg:w-52 sm:h-64 lg:h-52 rounded-full border-4 p-1 border-gray-500"
 			>
 				<Image
 					src={student?.picture || "/girl1.jpg"}

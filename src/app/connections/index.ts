@@ -1,21 +1,24 @@
-import {connection} from "mongoose";
+import { connection } from "mongoose";
 
 export function StudentModel() {
-  return connection.collection("students");
+	return connection.collection("students");
 }
 
 export function FeesModel() {
-  return connection.collection("fees");
+	return connection.collection("fees");
 }
 
 export function AttendanceModel() {
-  return connection.collection("attendences");
+	return connection.collection("attendences");
 }
 
 export function ExamModel() {
-  return connection.collection("exams");
+	return connection.collection("exams");
 }
 
 export function AssignmentModel() {
-  return connection.collection("assignments");
+	return connection.collection("assignments");
+}
+export function ResultModel() {
+	return connection.collection("results");
 }

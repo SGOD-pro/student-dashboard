@@ -71,7 +71,7 @@ const PaymentInfo = () => {
 	};
 
 	return (
-		<div className="p-4 bg-slate-800 rounded-lg lg:rounded-2xl text-white h-full space-y-3">
+		<div className="space-y-3">
 			<h2 className="text-4xl font-bold">Fees:- {student?.fees}</h2>
 			{Fees?.paidMonth ? (
 				<>
